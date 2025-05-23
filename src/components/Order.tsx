@@ -1,4 +1,8 @@
+import axios from 'axios';
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
+
+const orderRoutes = 'http//localhost:5000/api/orders'
+
 
 interface FormData {
   personName: string;
@@ -27,12 +31,28 @@ const Order: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
 
-    // Optionally reset form
-    // setFormData({ personName: '', firmName: '', contact: '', email: '', deliveryLocation: '' });
+    try {
+      const response = await axios.post(orderRoutes , formData  ) 
+
+      console.log("The respose is", response)
+      setFormData({
+        personName : '' ,
+        firmName : '' ,
+        contact: '' ,
+        email : '' ,
+        deliveryLocation : ''
+      })
+
+
+    }
+    catch(error){
+      console.log(error)
+    }
+  
   };
 
   return (
